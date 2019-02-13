@@ -4,10 +4,17 @@ from .extensions import cors, db
 from .views import health_check
 
 
-def create_app():
+def create_app(*, testing=False):
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///../db.sqlite"
+    # use environment variables if in prod
+    if testing:
+        app.config["TESTING"] = True
+        database_uri = "sqlite:///:memory:"
+    else:
+        database_uri = "sqlite:///../db.sqlite"
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_uri
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 

@@ -61,6 +61,8 @@ python server.py
 http://flask.pocoo.org/docs/1.0/patterns/appfactories/
 https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xv-a-better-application-structure
 
+https://github.com/miguelgrinberg/microblog
+
 ### Creating Database
 
 ```python
