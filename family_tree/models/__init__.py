@@ -1,1 +1,1 @@
-from .person import User
+from .person import User  # noqa

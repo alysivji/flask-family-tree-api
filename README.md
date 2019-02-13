@@ -66,7 +66,7 @@ https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xv-a-better-ap
 ```python
 from family_tree.app import create_app, db
 
-web_app = acreate_app()
+web_app = create_app()
 web_app.app_context().push()
 
 db.create_all()
@@ -74,5 +74,6 @@ db.create_all()
 
 ### Todo
 
+- [ ] testing config
 - [ ] migrations
 - [ ] marshmallow

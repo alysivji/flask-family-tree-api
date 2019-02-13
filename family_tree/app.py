@@ -1,13 +1,7 @@
 from flask import Flask
-from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
 
+from .extensions import cors, db
 from .views import health_check
-
-db = SQLAlchemy()
-cors = CORS()
-
-from .models import *  # noqa
 
 
 def create_app():
