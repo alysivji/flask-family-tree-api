@@ -1,14 +1,23 @@
 from flask import Flask
-import flask_cors
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 
-from family_tree.views import health_check
+from .views import health_check
 
-cors = flask_cors.CORS()
+db = SQLAlchemy()
+cors = CORS()
+
+from .models import *  # noqa
 
 
 def create_app():
     app = Flask(__name__)
-    cors.init_app(app)
-    app.register_blueprint(health_check.blueprint, url_prefix='/api')
 
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///../db.sqlite"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.init_app(app)
+
+    cors.init_app(app)
+
+    app.register_blueprint(health_check.blueprint, url_prefix='/api')
     return app

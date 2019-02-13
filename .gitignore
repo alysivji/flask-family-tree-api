@@ -4,3 +4,6 @@
 # sivji added
 venv/
 .envrc
+*.sqlite
+.vscode
+*.pyc

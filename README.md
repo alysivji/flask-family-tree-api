@@ -53,3 +53,26 @@ or
 pipenv shell
 python server.py
 ```
+
+---
+
+## Notes
+
+http://flask.pocoo.org/docs/1.0/patterns/appfactories/
+https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xv-a-better-application-structure
+
+### Creating Database
+
+```python
+from family_tree.app import create_app, db
+
+web_app = acreate_app()
+web_app.app_context().push()
+
+db.create_all()
+```
+
+### Todo
+
+- [ ] migrations
+- [ ] marshmallow
