@@ -5,7 +5,8 @@ into an issue while trying to configure an in-memory test database. Googling led
 blog post that implemented the fixtures I was going to create.
 
 It was using callbacks for fixture teardown which is a deprecated pytest pattern. I
-changed it to use generators. Why reinvent the wheel when you can just improve it?
+changed it to use generators. Why reinvent the wheel when you can just improve it? Also
+this way of creating a db session savepoint is so much better than what I used to do.
 
 The `client` fixture is the only fixture that I wrote from scratch.
 

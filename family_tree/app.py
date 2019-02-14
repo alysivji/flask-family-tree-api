@@ -1,7 +1,7 @@
 from flask import Flask
 
 from .extensions import cors, db
-from .views import health_check
+from .views import healthcheck_bp, sandbox_view
 
 
 def create_app(*, testing=False):
@@ -20,5 +20,7 @@ def create_app(*, testing=False):
 
     cors.init_app(app)
 
-    app.register_blueprint(health_check.blueprint, url_prefix='/api')
+    app.register_blueprint(healthcheck_bp, url_prefix='/api')
+    app.add_url_rule("/api/sandbox", view_func=sandbox_view)
+
     return app
