@@ -13,3 +13,6 @@ class Person(BaseModel):
 
     address = db.Column(db.String(255), nullable=True)
     phone_number = db.Column(db.String(255), nullable=True)
+
+    # which family they belong to (could be multiple, right?)
+    # what relationships they have with other persons
