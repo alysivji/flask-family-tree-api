@@ -1,6 +1,6 @@
 """I would this add to manage.py, but this script is a good enough workaround"""
 
-from family_tree.app import create_app,db
+from family_tree.app import create_app, db
 
 
 def init_db():
