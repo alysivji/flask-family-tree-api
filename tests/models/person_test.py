@@ -1,8 +1,8 @@
-from family_tree.models import User
+from family_tree.models import Person
 
 
-def test_create_user(session):
-    new_user = User(name="test user", email="test@user.com")
+def test_create_person(session):
+    new_user = Person(first_name="test", last_name="user", email="test@user.com")
 
     session.add(new_user)
     session.commit()

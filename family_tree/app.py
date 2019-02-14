@@ -1,7 +1,16 @@
 from flask import Flask
 
+from .exceptions import NotFoundError
 from .extensions import cors, db
+from .utilities import make_response
 from .views import healthcheck_bp, sandbox_view
+
+
+def handle_not_found_error(error):
+    data = {
+        "msg": "Not Found"
+    }
+    return make_response(error.status_code, data=data)
 
 
 def create_app(*, testing=False):
@@ -20,7 +29,8 @@ def create_app(*, testing=False):
 
     cors.init_app(app)
 
+    app.register_error_handler(NotFoundError, handle_not_found_error)
+
     app.register_blueprint(healthcheck_bp, url_prefix='/api')
     app.add_url_rule("/api/sandbox", view_func=sandbox_view)
-
     return app

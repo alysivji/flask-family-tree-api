@@ -65,14 +65,7 @@ https://github.com/miguelgrinberg/microblog
 
 ### Creating Database
 
-```python
-from family_tree.app import create_app, db
-
-web_app = create_app()
-web_app.app_context().push()
-
-db.create_all()
-```
+http://www.databaseanswers.org/data_models/genealogy/index.htm
 
 ### Todo
 
