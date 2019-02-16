@@ -75,3 +75,28 @@ http://www.databaseanswers.org/data_models/genealogy/index.htm
 - [ ] data model
 - [ ] CRUD endpoints for all tables
 - [ ] pull out relationships
+
+### Scratch Pad
+
+```python
+parent = Person(first_name="Aly", last_name="Sivji", email="alysivji@gmail.com")
+child = Person(first_name="Aly Jr", last_name="Sivji", email="jrsivji@@gmail.com")
+parent.children.append(child)
+db.session.add(parent)
+db.session.add(child)
+db.session.commit()
+
+r = Relationship(p, p1)
+r = Relationship()
+p.relations.add(p1)
+p
+p.relations
+p1.relations
+p.relations.append(p1)
+p
+p.relations
+db.session.add(p)
+db.session.add(p1)
+db.session.commit()
+hist
+```

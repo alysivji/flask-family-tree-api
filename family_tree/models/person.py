@@ -14,5 +14,18 @@ class Person(BaseModel):
     address = db.Column(db.String(255), nullable=True)
     phone_number = db.Column(db.String(255), nullable=True)
 
-    # which family they belong to (could be multiple, right?)
-    # what relationships they have with other persons
+    # did not use backref as I like auto-complete
+    parents = db.relationship(
+        "Person",
+        secondary="progeny",
+        primaryjoin="Person.id==progeny.c.parent_id",
+        secondaryjoin="Person.id==progeny.c.child_id",
+        lazy="joined"
+    )
+    children = db.relationship(
+        "Person",
+        secondary="progeny",
+        primaryjoin="Person.id==progeny.c.child_id",
+        secondaryjoin="Person.id==progeny.c.parent_id",
+        lazy="joined"
+    )
