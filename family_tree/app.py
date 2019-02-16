@@ -1,7 +1,7 @@
 from flask import Flask
 
 from .exceptions import NotFoundError
-from .extensions import cors, db
+from .extensions import cors, db, migrate
 from .utilities import make_response
 from .blueprints import healthcheck_bp, familytree_bp
 
@@ -26,6 +26,7 @@ def create_app(*, testing=False):
     app.config["SQLALCHEMY_DATABASE_URI"] = database_uri
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
+    migrate.init_app(app, db)
 
     cors.init_app(app)
 
