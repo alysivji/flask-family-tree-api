@@ -1,4 +1,4 @@
-from .base import BaseModel
+from . import BaseModel
 from ..extensions import db
 
 

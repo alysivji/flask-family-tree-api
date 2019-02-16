@@ -69,6 +69,9 @@ http://www.databaseanswers.org/data_models/genealogy/index.htm
 
 ### Todo
 
-- [ ] testing config
-- [ ] migrations
-- [ ] marshmallow
+- [x] testing config
+- [x] migrations
+- [x] marshmallow
+- [ ] data model
+- [ ] CRUD endpoints for all tables
+- [ ] pull out relationships
