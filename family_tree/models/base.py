@@ -13,9 +13,10 @@ class BaseModel(db.Model):
         default=db.func.current_timestamp(),
     )
 
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
+
+    def patch(self, data: dict):
+        for key, value in data.items():
+            setattr(self, key, value)

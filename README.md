@@ -72,9 +72,10 @@ http://www.databaseanswers.org/data_models/genealogy/index.htm
 - [x] testing config
 - [x] migrations
 - [x] marshmallow
-- [ ] data model
+- [x] data model
 - [ ] CRUD endpoints for all tables
-- [ ] pull out relationships
+- [ ] add decorators for marshmallow serialization / deserialization
+  - [ ] marshmallow validation to make sure relations make sense (parent has earlier birthday than child)
 
 ### Scratch Pad
 

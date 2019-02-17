@@ -19,7 +19,8 @@ class PersonAPI(MethodView):
         person = person_item_schema.load(request.json, session=db.session).data
         db.session.add(person)
         db.session.commit()
-        headers = {"Location": f"/api/person/{person.id}"}  # generate dynamically
+        # TODO generate url dynamically (blueprint is throwing it in /api namespace)
+        headers = {"Location": f"/api/person/{person.id}"}
         data = person_item_schema.dump(person).data
         return make_response(201, headers=headers, data=data)
 
@@ -33,3 +34,24 @@ class PersonItemAPI(MethodView):
 
         data = person_item_schema.dump(person).data
         return make_response(200, data=data)
+
+    def put(self, id):
+        person = Person.query.filter_by(id=id).first()
+        if not person:
+            raise NotFoundError("Person")
+
+        person.patch(request.json)
+        db.session.add(person)
+        db.session.commit()
+        data = person_item_schema.dump(person).data
+        return make_response(200, data=data)
+
+    def delete(self, id):
+        person = Person.query.filter_by(id=id).first()
+        if not person:
+            raise NotFoundError("Person")
+
+        db.session.delete(person)
+        db.session.commit()
+
+        return make_response(200, data={})
