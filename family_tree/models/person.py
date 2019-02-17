@@ -20,12 +20,20 @@ class Person(BaseModel):
         secondary="progeny",
         primaryjoin="Person.id==progeny.c.parent_id",
         secondaryjoin="Person.id==progeny.c.child_id",
-        lazy="joined"
+        lazy="joined",
     )
     children = db.relationship(
         "Person",
         secondary="progeny",
         primaryjoin="Person.id==progeny.c.child_id",
         secondaryjoin="Person.id==progeny.c.parent_id",
-        lazy="joined"
+        lazy="joined",
+    )
+
+    spouse = db.relationship(
+        "Person",
+        secondary="spouse",
+        primaryjoin="Person.id==spouse.c.person_id",
+        secondaryjoin="Person.id==spouse.c.spouse_person_id",
+        lazy="joined",
     )

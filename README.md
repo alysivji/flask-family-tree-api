@@ -86,6 +86,32 @@ db.session.add(parent)
 db.session.add(child)
 db.session.commit()
 
+husband = Person(first_name="Aly", last_name="Sivji", email="sivpack@gmail.com")
+wife = Person(first_name="Alya", last_name="Sivji", email="sivpack-spouse@gmail.com")
+second_wife = Person(first_name="Alia", last_name="Shivji", email="sivpack-spouse2@gmail.com")
+# husband._spouse1.append(wife)
+db.session.add(husband)
+db.session.add(wife)
+db.session.commit()
+
+_spouse1 = db.relationship(
+    "Person",
+    secondary="spouse",
+    primaryjoin="Person.id==spouse.c.spouse1_id",
+    secondaryjoin="Person.id==spouse.c.spouse2_id",
+    backref=db.backref('_spouse2', lazy='joined'),
+    lazy="joined",
+)
+
+@hybrid_property
+def spouse(self):
+    return list(self._spouse1).extend(list(self._spouse2))
+
+@spouse.setter
+def spouse(self, other):
+    self._spouse1.append(other)
+
+
 r = Relationship(p, p1)
 r = Relationship()
 p.relations.add(p1)
