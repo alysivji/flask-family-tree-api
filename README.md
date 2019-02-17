@@ -1,4 +1,93 @@
-# be-coding-challenge
+# Family Tree API
+
+> Practice project to create a Family Tree API using Flask, SQLAlchemy, Alembic, and Marshmallow
+
+## Instructions
+
+### Installation
+
+(Assumes you have pipenv installed)
+
+1. `git clone` repo
+1. `pipenv install`
+1. `make up`
+
+### Makefile Commands
+
+```console
+cat Makefile
+up:
+  pipenv run python manage.py
+
+migration:
+  pipenv run flask db migrate -m="$(m)"
+
+migrate-up:
+  pipenv run flask db upgrade
+
+migrate-down:
+  pipenv run flask db downgrade
+
+shell:
+  pipenv run ipython -i scripts/shell.py
+
+test:
+  pipenv run pytest
+
+test-pdb:
+  pipenv run pytest --pdb
+
+test-cov:
+  pipenv run pytest --cov
+
+test-cov-view:
+  pipenv run pytest --cov --cov-report html && open ./htmlcov/index.html
+```
+
+## API Endpoints
+
+### `/api/v1/Person`
+
+- *GET*
+- *POST*
+
+### `/api/v1/Person/{person_id}`
+
+- *GET*
+- *PUT*
+- *DELETE*
+
+### `/api/v1/Person/{person_id}/relationship`
+
+- *POST*
+- *DELETE*
+
+## Todo
+
+- [x] testing config
+- [x] migrations
+- [x] marshmallow
+- [x] data model
+- [x] CRUD endpoints for all tables
+- [ ] relationship query endpoint
+- [ ] swagger docs via apispec
+- [ ] relationship details, start date, stop date
+- [ ] logging
+- [ ] spousal relationship
+- [ ] marshmallow validation to make sure relations make sense (parent has earlier birthday than child)
+- [ ] family table with information about year and place of origin, family crest image URL, greatest ancestors
+
+## Resources
+
+- [Flask Docs: App Factories](http://flask.pocoo.org/docs/1.0/patterns/appfactories/)
+- [Flask Mega Tutorial: App Factories](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xv-a-better-application-structure)
+- [Genealogy Data Model](http://www.databaseanswers.org/data_models/genealogy/index.htm)
+
+---
+---
+---
+
+## be-coding-challenge
 
 ### Expectations
 
@@ -52,80 +141,4 @@ or
 ```bash
 pipenv shell
 python server.py
-```
-
----
-
-## Notes
-
-http://flask.pocoo.org/docs/1.0/patterns/appfactories/
-https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xv-a-better-application-structure
-
-https://github.com/miguelgrinberg/microblog
-
-### Creating Database
-
-http://www.databaseanswers.org/data_models/genealogy/index.htm
-
-### Todo
-
-- [x] testing config
-- [x] migrations
-- [x] marshmallow
-- [x] data model
-- [ ] CRUD endpoints for all tables
-- [ ] add decorators for marshmallow serialization / deserialization
-  - [ ] marshmallow validation to make sure relations make sense (parent has earlier birthday than child)
-- [ ] logging
-- [ ] swagger docs via apispec
-
-### Scratch Pad
-
-```python
-parent = Person(first_name="Aly", last_name="Sivji", email="alysivji@gmail.com")
-child = Person(first_name="Aly Jr", last_name="Sivji", email="jrsivji@@gmail.com")
-parent.children.append(child)
-db.session.add(parent)
-db.session.add(child)
-db.session.commit()
-
-husband = Person(first_name="Aly", last_name="Sivji", email="sivpack@gmail.com")
-wife = Person(first_name="Alya", last_name="Sivji", email="sivpack-spouse@gmail.com")
-second_wife = Person(first_name="Alia", last_name="Shivji", email="sivpack-spouse2@gmail.com")
-# husband._spouse1.append(wife)
-db.session.add(husband)
-db.session.add(wife)
-db.session.commit()
-
-_spouse1 = db.relationship(
-    "Person",
-    secondary="spouse",
-    primaryjoin="Person.id==spouse.c.spouse1_id",
-    secondaryjoin="Person.id==spouse.c.spouse2_id",
-    backref=db.backref('_spouse2', lazy='joined'),
-    lazy="joined",
-)
-
-@hybrid_property
-def spouse(self):
-    return list(self._spouse1).extend(list(self._spouse2))
-
-@spouse.setter
-def spouse(self, other):
-    self._spouse1.append(other)
-
-
-r = Relationship(p, p1)
-r = Relationship()
-p.relations.add(p1)
-p
-p.relations
-p1.relations
-p.relations.append(p1)
-p
-p.relations
-db.session.add(p)
-db.session.add(p1)
-db.session.commit()
-hist
 ```
