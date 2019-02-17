@@ -1,5 +1,12 @@
+import itertools
+from sqlalchemy.ext.hybrid import hybrid_property
 from . import BaseModel
 from ..extensions import db
+
+
+def flatten(listOfLists):
+    "Flatten one level of nesting"
+    return list(itertools.chain.from_iterable(listOfLists))
 
 
 class Person(BaseModel):
@@ -37,3 +44,7 @@ class Person(BaseModel):
         secondaryjoin="Person.id==spouse.c.spouse_person_id",
         lazy="joined",
     )
+
+    @hybrid_property
+    def grandchildren(self):
+        return flatten([child.children for child in self.children])
