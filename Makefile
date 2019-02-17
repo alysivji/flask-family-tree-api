@@ -17,4 +17,7 @@ test:
 	pipenv run pytest
 
 test-cov:
-	pipenv run pytest --cov ./family_tree/
+	pipenv run pytest --cov
+
+test-cov-view:
+	pipenv run pytest --cov --cov-report html && open ./htmlcov/index.html
