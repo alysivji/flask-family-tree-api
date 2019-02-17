@@ -76,6 +76,8 @@ http://www.databaseanswers.org/data_models/genealogy/index.htm
 - [ ] CRUD endpoints for all tables
 - [ ] add decorators for marshmallow serialization / deserialization
   - [ ] marshmallow validation to make sure relations make sense (parent has earlier birthday than child)
+- [ ] logging
+- [ ] swagger docs via apispec
 
 ### Scratch Pad
 

@@ -12,16 +12,16 @@ class PersonAPI(MethodView):
 
     def get(self):
         all_people = Person.query.all()  # TODO pagination
-        data = person_list_schema.dump(all_people).data
+        data = person_list_schema.dump(all_people)
         return make_response(200, data=data)
 
     def post(self):
-        person = person_item_schema.load(request.json, session=db.session).data
+        person = person_item_schema.load(request.json, session=db.session)
         db.session.add(person)
         db.session.commit()
         # TODO generate url dynamically (blueprint is throwing it in /api namespace)
         headers = {"Location": f"/api/person/{person.id}"}
-        data = person_item_schema.dump(person).data
+        data = person_item_schema.dump(person)
         return make_response(201, headers=headers, data=data)
 
 
@@ -32,7 +32,7 @@ class PersonItemAPI(MethodView):
         if not person:
             raise NotFoundError("Person")
 
-        data = person_item_schema.dump(person).data
+        data = person_item_schema.dump(person)
         return make_response(200, data=data)
 
     def put(self, id):
@@ -43,7 +43,7 @@ class PersonItemAPI(MethodView):
         person.patch(request.json)
         db.session.add(person)
         db.session.commit()
-        data = person_item_schema.dump(person).data
+        data = person_item_schema.dump(person)
         return make_response(200, data=data)
 
     def delete(self, id):
