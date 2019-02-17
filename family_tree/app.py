@@ -7,10 +7,8 @@ from .blueprints import healthcheck_bp, familytree_bp
 
 
 def handle_not_found_error(error):
-    data = {
-        "msg": "Not Found"
-    }
-    return make_response(error.status_code, data=data)
+    data = {"msg": error.message}
+    return make_response(error.status_code, error=data)
 
 
 def create_app(*, testing=False):
@@ -33,6 +31,6 @@ def create_app(*, testing=False):
     app.register_error_handler(NotFoundError, handle_not_found_error)
 
     app.register_blueprint(familytree_bp, url_prefix="/api")
-    app.register_blueprint(healthcheck_bp, url_prefix='/api')
+    app.register_blueprint(healthcheck_bp, url_prefix="/api")
 
     return app
