@@ -1,3 +1,7 @@
+"""
+Could improve use an improve abstraction versus if/else on relationship_type
+"""
+
 from flask import request
 from flask.views import MethodView
 
@@ -17,7 +21,6 @@ class RelationshipAPI(MethodView):
         person = Person.query.filter_by(id=id).first()
         if not person:
             raise NotFoundError("Person")
-
         result = deserialize_request(relationship_item_schema, request.json)
 
         relation_type = result["relation_type"]
@@ -36,37 +39,25 @@ class RelationshipAPI(MethodView):
         return make_response(201)
 
     def delete(self, id):
-        # for a given person
-        pass
+        person = Person.query.filter_by(id=id).first()
+        if not person:
+            raise NotFoundError("Person")
+        result = deserialize_request(relationship_item_schema, request.json)
 
+        relation_type = result["relation_type"]
+        if relation_type == "child":
+            parent = person
+            child = request._deserialized["person_id_for_relation_type"]
+        elif relation_type == "parent":
+            child = person
+            parent = request._deserialized["person_id_for_relation_type"]
 
-# class PersonItemAPI(MethodView):
+        try:
+            parent.children.remove(child)
+        except ValueError:
+            return make_response(404, error="person_id_for_relation_type is not a valid relation")
 
-#     def get(self, id):
-#         person = Person.query.filter_by(id=id).first()
-#         if not person:
-#             raise NotFoundError("Person")
-
-#         data = person_item_schema.dump(person).data
-#         return make_response(200, data=data)
-
-#     def put(self, id):
-#         person = Person.query.filter_by(id=id).first()
-#         if not person:
-#             raise NotFoundError("Person")
-
-#         person.patch(request.json)
-#         db.session.add(person)
-#         db.session.commit()
-#         data = person_item_schema.dump(person).data
-#         return make_response(200, data=data)
-
-#     def delete(self, id):
-#         person = Person.query.filter_by(id=id).first()
-#         if not person:
-#             raise NotFoundError("Person")
-
-#         db.session.delete(person)
-#         db.session.commit()
-
-#         return make_response(200, data={})
+        db.session.add(parent)
+        db.session.add(child)
+        db.session.commit()
+        return make_response(200)
