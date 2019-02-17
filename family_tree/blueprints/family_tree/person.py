@@ -18,4 +18,5 @@ class PersonAPI(MethodView):
         person = person_item_schema.load(request.json, session=db.session).data
         db.session.add(person)
         db.session.commit()
-        return make_response(201, data=person_item_schema.dump(person).data)
+        data = person_item_schema.dump(person).data
+        return make_response(201, data=data)

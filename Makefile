@@ -15,3 +15,6 @@ shell:
 
 test:
 	pipenv run pytest
+
+test-cov:
+	pipenv run pytest --cov ./family_tree/
