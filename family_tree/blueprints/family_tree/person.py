@@ -20,7 +20,7 @@ class PersonAPI(MethodView):
         db.session.add(person)
         db.session.commit()
         # TODO generate url dynamically (blueprint is throwing it in /api namespace)
-        headers = {"Location": f"/api/person/{person.id}"}
+        headers = {"Location": f"/api/v1/person/{person.id}"}
         data = person_item_schema.dump(person)
         return make_response(201, headers=headers, data=data)
 

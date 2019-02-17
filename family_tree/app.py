@@ -36,7 +36,7 @@ def create_app(*, testing=False):
     app.register_error_handler(DeserializationError, handle_not_found_error)
     app.register_error_handler(SerializationError, handle_not_found_error)
 
-    app.register_blueprint(familytree_bp, url_prefix="/api")
+    app.register_blueprint(familytree_bp, url_prefix="/api/v1/")
     app.register_blueprint(healthcheck_bp, url_prefix="/api")
 
     return app

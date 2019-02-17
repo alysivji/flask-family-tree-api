@@ -12,9 +12,9 @@ def test_get_list_of_people(client, session):
             "last_name": "User",
             "email": f"test{i}@user.com",
         }
-        client.post("/api/person", json=test_person)
+        client.post("/api/v1/person", json=test_person)
 
-    rv = client.get("/api/person")
+    rv = client.get("/api/v1/person")
 
     assert rv.status_code == 200
     assert len(rv.json["data"]) == 5
@@ -27,13 +27,13 @@ def test_create_person(client, session):
         "email": "test@user.com",
     }
 
-    rv = client.post("/api/person", json=test_person)
+    rv = client.post("/api/v1/person", json=test_person)
 
     assert rv.status_code == 201
     assert rv.json["data"]["id"] == 1
     headers = rv.headers
     assert "Location" in headers
-    assert "/api/person/1" in headers["Location"]
+    assert "/api/v1/person/1" in headers["Location"]
 
 
 def test_get_person(client, session):
@@ -42,7 +42,7 @@ def test_get_person(client, session):
         "last_name": "User",
         "email": "test@user.com",
     }
-    rv = client.post("/api/person", json=test_person)
+    rv = client.post("/api/v1/person", json=test_person)
     loc = rv.headers["Location"]
     path = urlparse(loc).path
 
@@ -60,7 +60,7 @@ def test_post_person(client, session):
         "last_name": "User",
         "email": "test@user.com",
     }
-    rv = client.post("/api/person", json=test_person)
+    rv = client.post("/api/v1/person", json=test_person)
     loc = rv.headers["Location"]
     path = urlparse(loc).path
 
@@ -83,7 +83,7 @@ def test_delete_person(client, session):
         "last_name": "User",
         "email": "test@user.com",
     }
-    rv = client.post("/api/person", json=test_person)
+    rv = client.post("/api/v1/person", json=test_person)
     loc = rv.headers["Location"]
     path = urlparse(loc).path
 
@@ -99,7 +99,7 @@ def test_delete_person(client, session):
 def test_person_not_found(client, session, http_method):
     test_client_dot_http_method = getattr(client, http_method)
 
-    rv = test_client_dot_http_method("/api/person/1",)
+    rv = test_client_dot_http_method("/api/v1/person/1",)
 
     assert rv.status_code == 404
     assert "Person not found" in rv.json["error"]["msg"]

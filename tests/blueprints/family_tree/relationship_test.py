@@ -17,7 +17,7 @@ def create_person(client, session):
             "last_name": "User",
             "email": str(uuid.uuid4()),
         }
-        rv = client.post("/api/person", json=new_person)
+        rv = client.post("/api/v1/person", json=new_person)
         assert rv.status_code == 201
 
         return rv.json["data"]["id"]
@@ -29,7 +29,7 @@ def create_person(client, session):
 def create_relationship(client, session):
     def _create_relationship(*, from_id, to_id, rel_type):
         rel = {"relation_type": rel_type, "person_id_for_relation_type": to_id}
-        rv = client.post(f"/api/person/{from_id}/relationship", json=rel)
+        rv = client.post(f"/api/v1/person/{from_id}/relationship", json=rel)
         assert rv.status_code == 201
         return RelationshipDetails(from_id, to_id, rel_type)
 
@@ -46,15 +46,15 @@ def test_create_child_relationship_type(client, session, create_person):
         "relation_type": "child",
         "person_id_for_relation_type": child_id,
     }
-    rv = client.post(f"/api/person/{parent_id}/relationship", json=new_relationship)
+    rv = client.post(f"/api/v1/person/{parent_id}/relationship", json=new_relationship)
 
     # Assert
     assert rv.status_code == 201
 
-    rv = client.get(f"/api/person/{parent_id}")
+    rv = client.get(f"/api/v1/person/{parent_id}")
     assert child_id in rv.json["data"]["children"]
 
-    rv = client.get(f"/api/person/{child_id}")
+    rv = client.get(f"/api/v1/person/{child_id}")
     assert parent_id in rv.json["data"]["parents"]
 
 
@@ -68,16 +68,16 @@ def test_create_parent_relationship_type(client, session, create_person):
         "relation_type": "parent",
         "person_id_for_relation_type": parent_id,
     }
-    rv = client.post(f"/api/person/{child_id}/relationship", json=new_relationship)
+    rv = client.post(f"/api/v1/person/{child_id}/relationship", json=new_relationship)
 
     # Assert
     assert rv.status_code == 201
 
-    rv = client.get(f"/api/person/{parent_id}")
+    rv = client.get(f"/api/v1/person/{parent_id}")
     assert rv.status_code == 200
     assert child_id in rv.json["data"]["children"]
 
-    rv = client.get(f"/api/person/{child_id}")
+    rv = client.get(f"/api/v1/person/{child_id}")
     assert rv.status_code == 200
     assert parent_id in rv.json["data"]["parents"]
 
@@ -95,16 +95,16 @@ def test_delete_child_relationship_type(
         "relation_type": "child",
         "person_id_for_relation_type": child_id,
     }
-    rv = client.delete(f"/api/person/{parent_id}/relationship", json=rel_to_delete)
+    rv = client.delete(f"/api/v1/person/{parent_id}/relationship", json=rel_to_delete)
 
     # Assert
     assert rv.status_code == 200
 
-    rv = client.get(f"/api/person/{parent_id}")
+    rv = client.get(f"/api/v1/person/{parent_id}")
     assert rv.status_code == 200
     assert child_id not in rv.json["data"]["children"]
 
-    rv = client.get(f"/api/person/{child_id}")
+    rv = client.get(f"/api/v1/person/{child_id}")
     assert rv.status_code == 200
     assert parent_id not in rv.json["data"]["parents"]
 
@@ -122,15 +122,15 @@ def test_delete_parent_relationship_type(
         "relation_type": "parent",
         "person_id_for_relation_type": parent_id,
     }
-    rv = client.delete(f"/api/person/{child_id}/relationship", json=rel_to_delete)
+    rv = client.delete(f"/api/v1/person/{child_id}/relationship", json=rel_to_delete)
 
     # Assert
     assert rv.status_code == 200
 
-    rv = client.get(f"/api/person/{parent_id}")
+    rv = client.get(f"/api/v1/person/{parent_id}")
     assert rv.status_code == 200
     assert child_id not in rv.json["data"]["children"]
 
-    rv = client.get(f"/api/person/{child_id}")
+    rv = client.get(f"/api/v1/person/{child_id}")
     assert rv.status_code == 200
     assert parent_id not in rv.json["data"]["parents"]
