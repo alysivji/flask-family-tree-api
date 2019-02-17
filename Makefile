@@ -16,6 +16,9 @@ shell:
 test:
 	pipenv run pytest
 
+test-pdb:
+	pipenv run pytest --pdb
+
 test-cov:
 	pipenv run pytest --cov
 
