@@ -32,8 +32,8 @@ def test_delete_progeny_relationship_when_deleting_person(session):
 
 @pytest.fixture
 def create_person(session):
-    def _create_person():
-        p = Person(first_name="Test", last_name="User", email=str(uuid.uuid4()))
+    def _create_person(first="Test", last="User"):
+        p = Person(first_name=first, last_name=last, email=str(uuid.uuid4()))
         session.add(p)
         session.commit()
         return p
@@ -63,4 +63,10 @@ def test_family_tree(session, create_person):
         child3_child1,
         child3_child2,
         child3_child3,
+    ]
+    assert child2.grandchildren == []
+
+    # this should really be another function, but not worth spending time on now
+    assert child1_child1.cousins == [
+        child3_child1, child3_child2, child3_child3
     ]

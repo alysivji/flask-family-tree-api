@@ -5,7 +5,10 @@ from ..extensions import db
 
 
 def flatten(listOfLists):
-    "Flatten one level of nesting"
+    """Flatten one level of nesting
+
+    From https://docs.python.org/3/library/itertools.html#itertools-recipes
+    """
     return list(itertools.chain.from_iterable(listOfLists))
 
 
@@ -48,3 +51,9 @@ class Person(BaseModel):
     @hybrid_property
     def grandchildren(self):
         return flatten([child.children for child in self.children])
+
+    @hybrid_property
+    def cousins(self):
+        two_generations_up = flatten([parent.parents for parent in self.parents])
+        aunts_uncles = set(flatten([person.children for person in two_generations_up])) - set(self.parents)
+        return flatten([person.children for person in aunts_uncles])
