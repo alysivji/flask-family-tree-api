@@ -1,6 +1,6 @@
 # Family Tree API
 
-> Practice project to create a Family Tree API using Flask, SQLAlchemy, Alembic, and Marshmallow
+*Practice project to create a Family Tree API using Flask, SQLAlchemy, Alembic, Marshmallow, and pytest.*
 
 ## Instructions
 
