@@ -10,6 +10,7 @@
 
 1. `git clone` repo
 1. `pipenv install`
+1. `make migrate-up`
 1. `make up`
 
 ### Makefile Commands
