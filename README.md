@@ -12,6 +12,7 @@
 1. `pipenv install`
 1. `make migrate-up`
 1. `make up`
+1. `make test-cov-view`
 
 ### Makefile Commands
 
